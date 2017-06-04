@@ -2,7 +2,7 @@
 # https://discordapp.com/oauth2/authorize?client_id=320538466632990720&scope=bot&permissions=0
 
 require 'discordrb'
-require '.token.rb'
+require './token.rb'
 
 $songColumn = 1
 $songlist = []
@@ -64,7 +64,7 @@ bot.command(:makeroom, min_args: 2, max_args: 3, description: "!makeroom [roomID
   end
   
   #roomID check
-  if ( roomID.to_i < 0 && 99999 < roomID.to_i )
+  if ( roomID.to_i < 0 || 99999 < roomID.to_i )
     event.respond("invalid room ID")
     break
   end
