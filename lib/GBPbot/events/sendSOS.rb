@@ -9,7 +9,7 @@ module GBPbot
       
       reaction_add do |event|
         if event.emoji.name == '🆘'
-          q.push(BOT.send_message("#{$talkChannelID}", "#{event.message} :sos: from \##{event.message.channel.name}"))
+          q.push(BOT.send_message("#{$talkChannelID}", "#{event.message} :sos: from \##{event.message.channel.name} "))
         end
       end
 
