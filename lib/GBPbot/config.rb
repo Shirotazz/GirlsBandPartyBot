@@ -13,7 +13,11 @@ module GBPbot
 
   class Config
     def initialize
-      @file = "#{Dir.pwd}/data/config.yml"
+      if ARGV[0] == "d"
+        @file = "#{Dir.pwd}/data/configDEBUG.yml"
+      else
+        @file = "#{Dir.pwd}/data/config.yml"
+      end
       temp = loadfile(@file)
       @config = temp if temp.is_a?(Hash) && !temp.empty?
       setup_config if @config.nil?
