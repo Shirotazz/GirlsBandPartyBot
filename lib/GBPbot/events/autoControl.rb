@@ -16,22 +16,21 @@ module GBPbot
 
       # add empty reaction if be invited
       message(contains: Regexp.new("\\d{5}"), in: ch) do |event|
-        sleep(2)
         event.message.create_reaction('🈳')
-
       end
 
       # remove empty reaction if add full reaction
       reaction_add(emoji: '🈵') do |event|
-          event.message.delete_reaction(BOT.user(320885414582026252), '🈳')
-          h.delete(event.message.id)
+        event.message.delete_reaction(BOT.user(320538466632990720), '🈳')
+        event.message.delete_reaction(BOT.user(320538466632990720), '🆘')
+        h.delete(event.message.id)
       end
 
 
       #auto SOS
       reaction_add(emoji: '🈳') do |event|
         h.store(event.message.id, true)
-        sleep(10)
+        sleep(60)
         if h.key?(event.message.id) && h[event.message.id]
           event.message.create_reaction('🆘')
         end
