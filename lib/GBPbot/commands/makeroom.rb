@@ -32,7 +32,7 @@ module GBPbot
         end
 
         list = $songlist.select { |id, name, dif| difficulty.to_i <= dif.to_i }
-        bot.send_message("#{$freeChannelID}", "#{roomID} #{list.sample[$songColumn]}#{str}")
+        BOT.send_message("#{$freeChannelID}", "#{roomID} #{list.sample[$songColumn]}#{str}")
       end
 
     end

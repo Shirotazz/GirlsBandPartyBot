@@ -1,3 +1,4 @@
+# coding: utf-8
 # https://discordapp.com/oauth2/authorize?client_id=320538466632990720&scope=bot&permissions=0
 require 'yaml'
 
@@ -26,7 +27,7 @@ module GBPbot
   
   #  Commands.include!
   #  Events.include!
-
+    
   # Discord commands
   module Commands; end
   Dir["#{File.dirname(__FILE__)}/GBPbot/commands/*.rb"].each { |mod| require mod }
@@ -45,4 +46,7 @@ module GBPbot
   makesonglist
   
   BOT.run
+
+  # he likes girls band party
+  BOT.game = "バンドリ！ ガールズバンドパーティ！"
 end
