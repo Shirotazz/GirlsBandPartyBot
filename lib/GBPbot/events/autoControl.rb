@@ -9,13 +9,13 @@ module GBPbot
       h = Hash.new
       
       def self.checkReaction(e, s)
-        return (e.emoji.name == s && # emoji is SOS
+        return (e.emoji.name == s && # emoji matching
                 !e.message.from_bot? # message from human
                )
       end
 
-      # add empty reaction if be invited
-      message(contains: Regexp.new("\\d{5}"), in: ch) do |event|
+      # add empty reaction
+      message(contains: Regexp.new("^\\d{5}\\s"), in: ch) do |event|
         event.message.create_reaction('🈳')
       end
 
@@ -30,7 +30,7 @@ module GBPbot
       #auto SOS
       reaction_add(emoji: '🈳') do |event|
         h.store(event.message.id, true)
-        sleep(60)
+        sleep(180)
         if h.key?(event.message.id) && h[event.message.id]
           event.message.create_reaction('🆘')
         end
@@ -38,6 +38,13 @@ module GBPbot
 
       reaction_add(emoji: '🆘') do |event|
         h.store(event.message.id, false)
+      end
+
+      # delete SOS message if original was deleted
+      message_delete do |event|
+        if h.key?(event.id)
+          h.delete(event.id)
+        end
       end
       
     end

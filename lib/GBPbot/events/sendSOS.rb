@@ -30,13 +30,13 @@ module GBPbot
       def self.checkReaction(e)
         return (e.emoji.name == '🆘' && # emoji is SOS
                 !e.message.from_bot? && # message from human
-                e.message.channel.name != "botonly" ## message from channel
+                e.message.channel.name != "zatsudan" ## message from channel
                )
       end
 
       reaction_add do |event|
         if checkReaction(event) && !h.key?(event.message.id)
-          h.store(event.message.id, BOT.send_message("#{$tempChannelID}", "#{event.message} :sos: from \##{event.message.channel.name} "))
+          h.store(event.message.id, BOT.send_message("#{$talkChannelID}", "#{event.message} :sos: from \##{event.message.channel.name} "))
           
         end
       end
@@ -47,6 +47,12 @@ module GBPbot
         end
       end
 
+      message_delete do |event|
+        if h.key?(event.id)
+          h.delete(event.id).delete
+        end
+      end
+      
     end
   end
 end
