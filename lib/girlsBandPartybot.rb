@@ -1,3 +1,4 @@
+# coding: utf-8
 # https://discordapp.com/oauth2/authorize?client_id=320538466632990720&scope=bot&permissions=0
 require 'yaml'
 
@@ -23,9 +24,6 @@ module GBPbot
                                             client_id: config.client_id,
                                             prefix: config.prefix
                                            )
-  
-  #  Commands.include!
-  #  Events.include!
 
   # Discord commands
   module Commands; end
@@ -44,5 +42,11 @@ module GBPbot
   # song list initialize
   makesonglist
   
-  BOT.run
+  BOT.run :async
+  BOT.game=("バンドリ！ガールズバンドパーティー！")
+
+  
+  loop do
+    sleep(10)
+  end
 end
