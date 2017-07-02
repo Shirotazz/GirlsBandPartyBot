@@ -24,10 +24,14 @@ module GBPbot
                                             client_id: config.client_id,
                                             prefix: config.prefix
                                            )
+<<<<<<< HEAD
+
+=======
   
   #  Commands.include!
   #  Events.include!
     
+>>>>>>> master
   # Discord commands
   module Commands; end
   Dir["#{File.dirname(__FILE__)}/GBPbot/commands/*.rb"].each { |mod| require mod }
@@ -45,8 +49,18 @@ module GBPbot
   # song list initialize
   makesonglist
   
+<<<<<<< HEAD
+  BOT.run :async
+  BOT.game=("バンドリ！ガールズバンドパーティー！")
+
+  
+  loop do
+    sleep(10)
+  end
+=======
   BOT.run
 
   # he likes girls band party
   BOT.game = "バンドリ！ ガールズバンドパーティ！"
+>>>>>>> master
 end
