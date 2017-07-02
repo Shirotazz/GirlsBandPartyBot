@@ -26,27 +26,42 @@ module GBPbot
 
 
       reaction_add do |event|
-        case event.emoji.name
-        when "🈵"
+        config = Config.new
+        if checkReaction(event, "🈵")
           # remove empty reaction if add full reaction
           event.message.delete_reaction(BOT.user(config.client_id), "🈳")
+          event.message.delete_reaction(event.message.author.id, "🈳")
           event.message.delete_reaction(BOT.user(config.client_id), "🆘")
           sos.delete(event.message.id)
 
-        when "🈳"
+        elsif checkReaction(event, "🈳")
           # send SOS message if room is not full after 180sec
           sos.store(event.message.id, true)
-          sleep(10)
+          sleep(180)
           if sos.key?(event.message.id) && sos[event.message.id]
             event.message.create_reaction("🆘")
           end
 
-        when "🆘"
+        elsif checkReaction(event, "🆘")
           sos.store(event.message.id, false)
-          msg.store(event.message.id, BOT.send_message("#{$tempChannelID}", "#{event.message} :sos: from \##{event.message.channel.name} "))
-        end
 
-        
+          # msg create
+          user = event.message.author.nick.nil? ? "#{event.message.author.username}" : "#{event.message.author.nick}"
+          icon = event.message.author.avatar_url
+          title = "SOS from #{event.message.channel.name}"
+          text = "#{event.message}"
+          m = BOT.channel($talkChannelID).send_embed do | embed |
+            embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: user,
+                                                                icon_url: icon
+                                                               )
+            embed.add_field(name: title,
+                            value: text
+                           )
+            embed.colour = 16724736
+            embed.timestamp = Time.now
+          end
+          msg.store(event.message.id, m)
+        end
       end
 
       reaction_remove do |event|

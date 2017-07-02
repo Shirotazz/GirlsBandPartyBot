@@ -2,15 +2,6 @@
 
 module GBPbot
 
-  #global
-  $MAXLVL = "28"
-  $MINLVL = "1"
-  $freeChannelID = "299048531946242050"
-  $talkChannelID = "304634866866061332"
-  $tempChannelID = "320904750466072577"
-  $songColumn = 1
-  $songlist = []
-
   class Config
     def initialize
       if ARGV[0] == "d"
