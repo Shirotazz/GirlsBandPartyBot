@@ -13,7 +13,6 @@ module GBPbot
       config = Config.new
       
       def self.checkReaction(e, s)
-<<<<<<< HEAD
         return (e.emoji.name == s &&
                 !e.message.from_bot? &&
                 e.message.channel.name != "botonly"
@@ -21,16 +20,7 @@ module GBPbot
       end
 
       # add empty reaction if be invited
-      message(contains: Regexp.new("\\d{5}"), in: allowedChannel) do |event|
-=======
-        return (e.emoji.name == s && # emoji matching
-                !e.message.from_bot? # message from human
-               )
-      end
-
-      # add empty reaction
-      message(contains: Regexp.new("^\\d{5}\\s"), in: ch) do |event|
->>>>>>> master
+      message(contains: Regexp.new("\\d{5}\\s"), in: allowedChannel) do |event|
         event.message.create_reaction('🈳')
       end
 
@@ -40,8 +30,8 @@ module GBPbot
         if checkReaction(event, "🈵")
           # remove empty reaction if add full reaction
           event.message.delete_reaction(BOT.user(config.client_id), "🈳")
-          event.message.delete_reaction(event.message.author.id, "🈳")
           event.message.delete_reaction(BOT.user(config.client_id), "🆘")
+          #event.message.delete_reaction(event.message.author.id, "🈳")
           sos.delete(event.message.id)
 
         elsif checkReaction(event, "🈳")
@@ -55,7 +45,6 @@ module GBPbot
         elsif checkReaction(event, "🆘")
           sos.store(event.message.id, false)
 
-<<<<<<< HEAD
           # msg create
           user = event.message.author.nick.nil? ? "#{event.message.author.username}" : "#{event.message.author.nick}"
           icon = event.message.author.avatar_url
@@ -72,14 +61,6 @@ module GBPbot
             embed.timestamp = Time.now
           end
           msg.store(event.message.id, m)
-=======
-      #auto SOS
-      reaction_add(emoji: '🈳') do |event|
-        h.store(event.message.id, true)
-        sleep(180)
-        if h.key?(event.message.id) && h[event.message.id]
-          event.message.create_reaction('🆘')
->>>>>>> master
         end
       end
 
@@ -89,16 +70,6 @@ module GBPbot
         end
       end
 
-<<<<<<< HEAD
-=======
-      # delete SOS message if original was deleted
-      message_delete do |event|
-        if h.key?(event.id)
-          h.delete(event.id)
-        end
-      end
-      
->>>>>>> master
     end
   end
 end
