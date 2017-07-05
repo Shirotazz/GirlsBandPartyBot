@@ -6,7 +6,7 @@ module GBPbot
       extend Discordrb::EventContainer
 
       allowedChannel = ["regular", "veteran", "experimental"]
-      ignoreChannel = ["botonly", "free"]
+      ignoreChannel = ["zatsudan", "free"]
       sos = Hash.new
       msg = Hash.new
       
@@ -15,11 +15,11 @@ module GBPbot
       def self.checkReaction(e, s)
         return (e.emoji.name == s &&
                 !e.message.from_bot? &&
-                e.message.channel.name != "botonly"
+                e.message.channel.name != "zatudan"
                )
       end
 
-      # add empty reaction if be invited
+      # add empty reaction
       message(contains: Regexp.new("\\d{5}\\s"), in: allowedChannel) do |event|
         event.message.create_reaction('🈳')
       end
@@ -27,14 +27,14 @@ module GBPbot
 
       reaction_add do |event|
         config = Config.new
-        if checkReaction(event, "🈵")
+        if checkReaction(event, "🈵") # full
           # remove empty reaction if add full reaction
           event.message.delete_reaction(BOT.user(config.client_id), "🈳")
           event.message.delete_reaction(BOT.user(config.client_id), "🆘")
           #event.message.delete_reaction(event.message.author.id, "🈳")
           sos.delete(event.message.id)
 
-        elsif checkReaction(event, "🈳")
+        elsif checkReaction(event, "🈳") # empty
           # send SOS message if room is not full after 180sec
           sos.store(event.message.id, true)
           sleep(180)
@@ -42,10 +42,10 @@ module GBPbot
             event.message.create_reaction("🆘")
           end
 
-        elsif checkReaction(event, "🆘")
+        elsif checkReaction(event, "🆘") # SOS
           sos.store(event.message.id, false)
 
-          # msg create
+          # sos msg create
           user = event.message.author.nick.nil? ? "#{event.message.author.username}" : "#{event.message.author.nick}"
           icon = event.message.author.avatar_url
           title = "SOS from #{event.message.channel.name}"
