@@ -44,11 +44,10 @@ module GBPbot
   
 
   BOT.run :async
-  BOT.game=("バンドリ！ガールズバンドパーティー！")
+  BOT.game=("バンドリ！ガールズバンドパーティー！") 
 
-  
   loop do
-    sleep(10)
+    sleep(60)
   end
 
 end
