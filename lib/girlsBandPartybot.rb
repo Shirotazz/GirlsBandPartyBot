@@ -17,6 +17,14 @@ module GBPbot
     end
   end
 
+  def self.savesonglist
+      File.open("#{File.dirname(__FILE__)}/data/songlist", "w") do |file|
+        $songlist.each do |id, name, diff|
+          file.write("#{id}\t#{name}\t#{diff}\n")
+        end
+      end
+  end
+
   Dir["#{File.dirname(__FILE__)}/GBPbot/*.rb"].each { |file| require file }
 
   config = Config.new
@@ -48,6 +56,7 @@ module GBPbot
 
   loop do
     sleep(60)
+    GBPbot::savesonglist
   end
 
 end
