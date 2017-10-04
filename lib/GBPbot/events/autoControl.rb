@@ -6,6 +6,7 @@ module GBPbot
       extend Discordrb::EventContainer
 
       @allowedChannel = ["regular", "master", "experimental"]
+
       sos = Hash.new
       msg = Hash.new
       
